@@ -2,7 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv'
 dotenv.config()
 import { connectDB } from './config/db.js'
-import path from 'path'
+
 // import route : 
 import quizRoutes from './routes/quizRoutes.js'
 import questionRoutes from './routes/questionRoutes.js'
@@ -186,9 +186,3 @@ app.listen(PORT, (req, res) => {
     // connect to db : 
     connectDB()
 })
-
-// deploy : 
-const __dirname = path.resolve()
-if(process.env.NODE_ENV==='production'){
-    
-}
