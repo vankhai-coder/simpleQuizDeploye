@@ -182,7 +182,6 @@ app.use('/users', userRoutes)
 app.use('/results', resultRoutes)
 // listen port : 
 app.listen(PORT, (req, res) => {
-    console.log(`App running on http://localhost:${PORT}`);
     // connect to db : 
     connectDB()
 })
