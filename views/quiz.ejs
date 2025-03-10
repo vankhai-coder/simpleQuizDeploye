@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<!-- {quizs : [{_id , title , description }]} -->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            background-color: #f9f9f9;
+            font-family: Arial, sans-serif;
+            margin-bottom: 100px;
+            margin-top: 80px;
+        }
+
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 40%;
+            text-align: center;
+        }
+
+        input {
+            display: block;
+            width: calc(100% - 20px);
+            margin: 10px auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .quiz-list {
+            width: 40%;
+            margin-top: 20px;
+        }
+
+        .quiz-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .quiz-info {
+            flex-grow: 1;
+        }
+
+        .quiz-info h2 {
+            margin: 0;
+        }
+
+        .quiz-info h3 {
+            margin: 5px 0;
+            color: gray;
+            opacity: 0.8;
+        }
+
+        .quiz-actions button {
+            padding: 10px 15px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+        }
+
+        .delete-btn {
+            background-color: orange;
+        }
+
+        .update-btn {
+            background-color: green;
+        }
+
+        .delete-btn:hover {
+            background-color: darkorange;
+        }
+
+        .update-btn:hover {
+            background-color: darkgreen;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- form for create new quiz :  -->
+    <form>
+        <h1>Create new quiz</h1>
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" required>
+
+        <label for="description">Description</label>
+        <input type="text" name="description" id="description" required>
+        <div class="quiz-actions">
+            <button class="update-btn" id="createQuizBtn">Create quiz</button>
+        </div>
+    </form>
+
+    <!-- list all quiz to update or delete :  -->
+    <h1>List all quizs :</h1>
+    <div class="quiz-list">
+        <% quizs.forEach((q,i)=> { %>
+            <div class="quiz-item">
+                <div class="quiz-info">
+                    <h2>
+                        <%= q.title %>
+                    </h2>
+                    <h3>
+                        <%= q.description %>
+                    </h3>
+                </div>
+                <div class="quiz-actions">
+                    <button class="delete-btn" onclick="deleteQuiz('<%= q._id%>')">Delete</button>
+                    <button class="update-btn" onclick="window.location='/quiz/detail/<%= q._id%>'">Update</button>
+                </div>
+            </div>
+            <% }) %>
+    </div>
+    <script>
+
+        // <!-- script for create new quiz :  -->
+        const createNewQuiz = async () => {
+            const title = document.getElementById('title').value
+            const description = document.getElementById('description').value
+
+            const response = await fetch('/quizzes', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": 'application/json'
+                },
+                body: JSON.stringify({ title, description })
+            })
+            if (response.ok) {
+                window.location = '/quiz'
+            } else {
+                window.location = '/'
+            }
+        }
+        // Gán sự kiện sau khi DOM đã load xong
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById('createQuizBtn').addEventListener('click', (event) => {
+                event.preventDefault(); // Ngăn form reload trang
+                createNewQuiz();
+            });
+        });
+
+        // script for delete quiz by id : 
+        const deleteQuiz = async (quizId) => {
+            try {
+                const isConfirmed = confirm("Are you sure you want to delete this quiz?");
+                if (!isConfirmed) return; // Stop execution if user cancels
+
+                const response = await fetch(`/quizzes/${quizId}`, {
+                    method: "DELETE"
+                });
+
+                if (response.ok) {
+                    window.location = '/quiz'; // Redirect on success
+                } else {
+                    window.location = '/'; // Redirect on failure
+                }
+            } catch (error) {
+                console.log(error);
+            }
+
+        }
+    </script>
+</body>
+
+</html>

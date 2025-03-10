@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz & Question</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom, yellow, white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+        }
+        .btn {
+            background-color: #ffcc00;
+            border: none;
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #ff9900;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="btn quiz" id="quiz">Quiz</button>
+        <button class="btn question" id="question">Question</button>
+    </div>
+</body>
+<script>
+    const quizButton = document.getElementById('quiz')
+    quizButton.addEventListener('click' , ()=> {
+        window.location = '/quiz'
+        
+    })
+
+    const questionButton = document.getElementById('question')
+    questionButton.addEventListener('click' , ()=> {
+        window.location = '/question'
+    })
+</script>
+</html>

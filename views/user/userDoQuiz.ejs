@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Response</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #e0f7fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #00796b;
+            font-size: 24px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            color: #00796b;
+        }
+        input[type="number"], button {
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        button {
+            background: #00796b;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            border: none;
+            margin-top: 20px;
+        }
+        button:hover {
+            background: #004d40;
+        }
+        .option-group {
+            display: flex;
+            flex-direction: column;
+            margin-top: 5px;
+        }
+        .option-group div {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quiz Response Form</h1>
+        <div>
+            <input type="hidden" name="userId" value="<%= quizData.userId %>">
+            <input type="hidden" name="quizId" value="<%= quizData.quizId %>">
+            <input type="hidden" name="_id" value="<%= quizData._id %>">
+    
+            <% quizData.userAnswer.forEach((answers, index) => { %>
+                <label>Question <%= index + 1 %>:</label>
+                <div class="option-group">
+                    <% [1, 2, 3, 4].forEach(option => { %>
+                        <div>
+                            <input type="checkbox" name="userAnswer[<%= index %>]" value="<%= option %>" 
+                                <%= answers.includes(option) ? 'checked' : '' %>> Option <%= option %>
+                        </div>
+                    <% }) %>
+                </div>
+            <% }) %>
+            
+            <label>Score:</label>
+            <input type="number" name="score" step="0.5" value="<%= quizData.score %>"><br>
+        </form>
+    </div>
+</body>
+</html>
